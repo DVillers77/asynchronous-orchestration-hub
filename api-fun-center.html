@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Step 465: API Challenge - The Ultimate Fun Center</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 50px 20px;
+      }
+      h1 {
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
+
+      .api-section {
+        margin: 40px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f5f5f5;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        transition: background-color 0.2s;
+      }
+
+      /* Specific button colors */
+      #fetch-fact {
+        background-color: #3498db;
+      }
+      #fetch-fact:hover {
+        background-color: #2980b9;
+      }
+
+      #fetch-cat {
+        background-color: #9b59b6;
+      }
+      #fetch-cat:hover {
+        background-color: #8e44ad;
+      }
+
+      #fetch-dog {
+        background-color: #e74c3c;
+      }
+      #fetch-dog:hover {
+        background-color: #c0392b;
+      }
+
+      #translate-yoda {
+        background-color: #2ecc71;
+      }
+      #translate-yoda:hover {
+        background-color: #27ae60;
+      }
+
+      #fact-output,
+      #cat-output,
+      #yoda-output {
+        margin-top: 15px;
+        padding: 15px;
+        border: 1px dashed #bbb;
+        min-height: 50px;
+        background-color: white;
+        border-radius: 5px;
+        font-style: italic;
+        text-align: left;
+      }
+
+      /* Translation specific styling */
+      #user-input {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #dog-image {
+        max-width: 100%;
+        max-height: 250px;
+        border: 5px solid #bdc3c7;
+        border-radius: 10px;
+        display: none;
+      }
+      #image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 250px;
+      }
+      .loading-text {
+        color: #7f8c8d;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ultimate API Fun Center 💡🐱🐕🗣️</h1>
+
+    <div class="api-section">
+      <h2>Useless Fact Generator</h2>
+      <button id="fetch-fact" onclick="fetchRandomFact()">
+        Get a Random Fact
+      </button>
+      <div id="fact-output" class="loading-text">
+        Click the button to load a random fact!
+      </div>
+    </div>
+
+    <div class="api-section">
+      <h2>Cat Fact Generator</h2>
+      <button id="fetch-cat" onclick="fetchRandomCatFact()">
+        Get a Random Cat Fact
+      </button>
+      <div id="cat-output" class="loading-text">
+        Click the button to load a random cat fact!
+      </div>
+    </div>
+
+    <div class="api-section">
+      <h2>Random Dog Picture</h2>
+      <button id="fetch-dog" onclick="fetchRandomDogImage()">
+        Fetch New Dog Pic!
+      </button>
+      <div id="image-container">
+        <img
+          id="dog-image"
+          src=""
+          alt="A random dog picture fetched from an API."
+        />
+        <p id="image-loading-text" class="loading-text">
+          Click the button to fetch a random dog image!
+        </p>
+      </div>
+    </div>
+
+    <div class="api-section">
+      <h2>Yoda Translator</h2>
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Type a sentence here..."
+        value="I will become a great programmer."
+      />
+      <button id="translate-yoda" onclick="translateToYoda()">
+        Translate to Yoda Speak
+      </button>
+      <div id="yoda-output" class="loading-text">
+        Translated text will appear here.
+      </div>
+    </div>
+
+    <script src="api-assignment.js"></script>
+  </body>
+</html>
