@@ -59,24 +59,31 @@
         background-color: #c0392b;
       }
 
-      #translate-yoda {
-        background-color: #2ecc71;
+      #fetch-advice {
+        background-color: #27ae60; /* Deep Oracle Green */
       }
-      #translate-yoda:hover {
-        background-color: #27ae60;
+      #fetch-advice:hover {
+        background-color: #1e8449;
       }
 
+      /* --- THE UNIFIED OUTPUT BASE --- */
       #fact-output,
       #cat-output,
-      #yoda-output {
+      #advice-output {
         margin-top: 15px;
         padding: 15px;
-        border: 1px dashed #bbb;
         min-height: 50px;
         background-color: white;
         border-radius: 5px;
+        border: 1px dashed #bbb; /* Standard fallback border */
         font-style: italic;
-        text-align: left;
+        text-align: left; /* Standard fallback alignment */
+      }
+
+      /* --- THEMATIC OVERRIDES --- */
+      #advice-output {
+        border-color: #27ae60; /* Specific Oracle Green */
+        text-align: center; /* Centered 'Wisdom' alignment */
       }
 
       /* Translation specific styling */
@@ -131,15 +138,9 @@
     </div>
 
     <div class="api-section">
-      <h2>Yoda Translator</h2>
-      <input
-        type="text"
-        id="user-input"
-        placeholder="Type a sentence here..."
-        value="I will become a great programmer."
-      />
-      <button id="translate-yoda" onclick="translateToYoda()">Translate to Yoda Speak</button>
-      <div id="yoda-output" class="loading-text">Translated text will appear here.</div>
+      <h2>The Life Advice Oracle 🔮</h2>
+      <button id="fetch-advice" onclick="fetchAdvice()">Consult the Oracle</button>
+      <div id="advice-output" class="loading-text">Click the button to receive wisdom.</div>
     </div>
 
     <script src="api-fun-center.js"></script>

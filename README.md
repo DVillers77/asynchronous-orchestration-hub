@@ -7,31 +7,40 @@ managing multiple external data streams, handling network latency, and ensuring 
 
 ## 🕹️ System Architecture
 
-| Module                   | Engineering Focus                                                                      |
-| :----------------------- | :------------------------------------------------------------------------------------- |
-| **Multi-Endpoint Fetch** | Managing disparate REST APIs with varying response structures and rate limits.         |
-| **Input Sanitization**   | Utilizing `encodeURIComponent` to prevent URI malformation during external handshakes. |
-| **State Feedback**       | Implementation of "Loading" HUD states to manage **Perceived Performance**.            |
+| Module                   | Engineering Focus                                                                  |
+| :----------------------- | :--------------------------------------------------------------------------------- |
+| **Multi-Endpoint Fetch** | Managing disparate REST APIs with varying response structures and rate limits.     |
+| **Dependency Auditing**  | Pivoting from unstable third-party vendors (Yoda API) to high-uptime alternatives. |
+| **State Feedback**       | Implementation of "Loading" HUD states to manage **Perceived Performance**.        |
 
 ## ✨ Key Technical Breakthroughs
 
 ### 1. The Async Transition Handshake
 
-Every API request triggers a **HUD Status Update**. By toggling `.loading-text` classes during the Promise lifecycle
-(Pending -> Fulfilled/Rejected), the system provides immediate visual feedback, mitigating user frustration during
-network "jitter."
+Every API request triggers a **HUD Status Update**. [cite_start]By toggling `.loading-text` classes during the Promise
+lifecycle (Pending -> Fulfilled/Rejected), the system provides immediate visual feedback, mitigating user frustration
+during network "jitter".
 
-### 2. Sanity-Checked URI Construction
+### 2. Defensive Engineering (The "Hidden Success" Trap)
 
-The Yoda Translation engine requires a query parameter handshake. Rather than raw string interpolation, the system
-utilizes `encodeURIComponent`. This ensures that mathematical symbols or punctuation in the user's input do not break
-the API request—a critical step in **Defensive Engineering**.
+Standard `fetch` implementations do not reject on HTTP error states like **429 (Rate Limited)** or **404 (Not Found)**.
+[cite_start]This rig implements explicit `response.ok` checks to manually trigger the `.catch()` block, ensuring the UI
+remains truthful to the system state rather than failing silently.
 
-### 3. Graceful Degradation (Error Catching)
+### 3. Graceful Degradation & Recovery
 
-External APIs are inherently unstable. This rig implements comprehensive `.catch()` logic. If a third-party service
-(like FunTranslations) hits a rate limit (429 Error), the UI gracefully informs the user rather than failing silently in
-the console.
+External APIs are inherently unstable. This rig implements comprehensive error-catching logic. [cite_start]If a service
+hits a rate limit, the UI gracefully informs the user with themed feedback (e.g., "The Oracle is silent") rather than
+hanging in a permanent loading state.
+
+## 🛠️ Engineering Post-Mortem: Dependency Pivot
+
+During V26 development, the **Yoda Translation Engine** was flagged for instability due to strict third-party rate
+limiting (HTTP 429) and CORS restrictions.
+
+- **The Pivot:** Migrated to the **Advice Slip API** to ensure 100% "Live Demo" uptime for portfolio reviewers.
+- **The Lesson:** Maintained defensive `.then(response.ok)` checks to handle "Hidden Success" traps where the Fetch API
+  resolves a 429 error as a successful promise.
 
 ## ⚙️ How to Initialize the Rig
 

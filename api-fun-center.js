@@ -2,8 +2,7 @@
 const USELESS_FACT_API_URL = "https://uselessfacts.jsph.pl/api/v2/facts/random";
 const CAT_FACT_API_URL = "https://catfact.ninja/fact";
 const DOG_API_URL = "https://dog.ceo/api/breeds/image/random";
-// Base URL for Fun Translations - Yoda endpoint uses query parameters
-const YODA_API_BASE = "https://api.funtranslations.com/translate/yoda.json";
+const ADVICE_API_URL = "https://api.adviceslip.com/advice";
 
 /**
  * 1. Fetches a random Useless fact.
@@ -101,42 +100,29 @@ function fetchRandomDogImage() {
 }
 
 /**
- * 4. Translates user input into Yoda Speak.
+ * 4. Fetches a random piece of life advice.
  */
-function translateToYoda() {
-  const inputText = document.getElementById("user-input").value.trim();
-  const outputElement = document.getElementById("yoda-output");
-
-  if (inputText === "") {
-    outputElement.textContent = "Enter text to translate, you must.";
-    return;
-  }
-
-  // Encode the input text to safely place it into the URL query parameter
-  const encodedText = encodeURIComponent(inputText);
-  const fullUrl = `${YODA_API_BASE}?text=${encodedText}`;
-
-  outputElement.textContent = "Translating, hmmm...";
+function fetchAdvice() {
+  const outputElement = document.getElementById("advice-output");
+  outputElement.textContent = "Consulting the oracle, hmmm...";
   outputElement.classList.add("loading-text");
 
-  fetch(fullUrl)
+  fetch(ADVICE_API_URL)
     .then((response) => {
+      // THE FIX: Explicitly check response.ok to catch 429/404 errors
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
     })
     .then((data) => {
-      // Fun Translations API returns the result in data.contents.translated
-      const translatedText = data.contents.translated;
-      outputElement.textContent = translatedText;
+      // Advice API returns data in the 'slip' object
+      outputElement.textContent = `"${data.slip.advice}"`;
       outputElement.classList.remove("loading-text");
     })
     .catch((error) => {
-      console.error("Yoda Translation Fetch error:", error);
-      // NOTE: FunTranslations API often returns a 429 error if too many requests are made.
-      outputElement.textContent =
-        "Translation failed. Too many requests, perhaps? (API Error)";
+      console.error("Advice Fetch error:", error);
+      outputElement.textContent = "The oracle is silent. (Check Console for API Error)";
       outputElement.classList.add("loading-text");
     });
 }
