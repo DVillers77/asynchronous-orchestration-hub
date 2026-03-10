@@ -46,7 +46,7 @@ limiting (HTTP 429) and CORS restrictions.
 
 1. Open `api-fun-center.html`.
 2. Engage any of the four "Data Portals" to trigger an asynchronous fetch.
-3. Observe the `yoda-output` feedback when entering complex strings to verify input sanitization.
+3. Observe the advice-output feedback to verify deterministic state management and defensive error handling.
 
 ---
 
